@@ -1,0 +1,16 @@
+{
+    "manifest_version": 2,
+    "name": "CA6.DEV VodTS",
+    "version": "1.0",
+    "permissions": [
+        "activeTab", 
+        "downloads",
+        "https://www.youtube.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["https://www.youtube.com/*"],
+            "js": ["content.js"]
+        }
+    ]
+}
