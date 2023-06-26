@@ -20,6 +20,7 @@ urlObserver.observe(document.querySelector('title'), {childList: true});
 
 let observer = new MutationObserver(function() {
     video = document.querySelector('video');
+
     //let titleElement = document.querySelector('#scroll-container.yt-chip-cloud-renderer');
     let titleElement = document.querySelector('#secondary-inner.ytd-watch-flexy');
     
@@ -101,11 +102,11 @@ let observer = new MutationObserver(function() {
         //titleElement.appendChild(firstRow);
         //titleElement.appendChild(secondRow);
 
-        vodtsContainer.appendChild(firstRow);
 
         vodtsinerContainer.appendChild(secondRow);
         vodtsinerContainer.appendChild(thirdRow);
 
+        vodtsContainer.appendChild(firstRow);
         vodtsContainer.appendChild(vodtsinerContainer);
 
         titleElement.prepend(vodtsContainer);
@@ -235,7 +236,6 @@ function setVideoTime(time) {
 
 function parseRepoGlobal() {
     let url = 'https://raw.githubusercontent.com/CA6-LiveTS/StreamTS-global/main/global.repo';
-    console.error('IN parseRepoGlobal ' + url);
     fetch(url)
         .then(response => response.text())
         .then(data => {
@@ -265,7 +265,6 @@ function parseRepoGlobal() {
 
 
 function parseRepoList(url) {
-    console.error('IN parseRepoList ' + url);
     let anchorElement = document.querySelector('a.yt-simple-endpoint.style-scope.yt-formatted-string');
     let channelName = anchorElement.textContent;
     let channelHandle = anchorElement.getAttribute('href').split("@")[1];
@@ -295,7 +294,6 @@ function parseRepoList(url) {
                     let name = parts[2].replace(/"/g, '');
                     let repoUrl = parts[3].replace(/"/g, '');
 
-                    console.error('IN parseRepoList call ' + repoUrl);
                     if (channelId === id || channelHandle === handle || channelName === name) {
                         parseRepo(repoUrl);
                     }
@@ -309,7 +307,6 @@ function parseRepoList(url) {
 
 
 function parseRepo(url) {
-    console.error('IN parseRepo ' + url);
     let videoId = new URL(window.location.href).searchParams.get("v");
 
     fetch(url)
@@ -344,7 +341,6 @@ function parseRepo(url) {
 
 
 function loadTimestampsUrl(url) {
-    console.error('IN loadTimestampsUrl ' + url);
     // Fetch file from url
     fetch(url)
         .then(response => response.text())
