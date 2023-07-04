@@ -2,6 +2,7 @@
 let video = null;
 let activeTimestampButton = null; 
 let currentUrl = window.location.href;
+let activity = 'Chapter + TS';
 
 let urlObserver = new MutationObserver(function() {
     if (window.location.href !== currentUrl) {
@@ -81,6 +82,24 @@ let observer = new MutationObserver(function() {
         loadButton.style.backgroundColor = '#66d672';
         loadButton.addEventListener('click', loadTimestamps);
 
+        let activitySelect = document.createElement('select');
+        activitySelect.style.fontSize = '18px';
+        activitySelect.style.padding = '5px';
+
+        let options = ["All", "Chapter Only", "TS Only"];
+
+        options.forEach(function(optionText) {
+            let optionElement = document.createElement('option');
+            optionElement.textContent = optionText;
+            optionElement.value = optionText;
+
+            activitySelect.appendChild(optionElement);
+        });
+
+        activitySelect.addEventListener('change', function() {
+            activity = this.value;
+        });
+
         let vodtsContainer = document.createElement('div');
         vodtsContainer.id = 'vodts-container';
 
@@ -98,6 +117,7 @@ let observer = new MutationObserver(function() {
 
         secondRow.appendChild(loadButton);
         secondRow.appendChild(searchButton);
+        secondRow.appendChild(activitySelect);
 
         //titleElement.appendChild(firstRow);
         //titleElement.appendChild(secondRow);
@@ -126,10 +146,6 @@ observer.observe(document, {childList: true, subtree: true});
 
 function updateActiveTimestamp() {
     let timestampContainer = document.querySelector('#timestamp-container');
-    if (timestampContainer === null) {
-        // If the timestampContainer doesn't exist yet, exit the function
-        return;
-    }
 
     let currentTime = video.currentTime;
 
@@ -151,7 +167,7 @@ function loadTimestamps() {
     // Read the clipboard
     navigator.clipboard.readText().then(function(text) {
         // Parse the clipboard data
-        let timestamps = parseClipboardData(text);
+        let timestamps = parseData(text);
 
 
         let oldTimestampContainer = document.querySelector('#timestamp-container');
@@ -165,7 +181,7 @@ function loadTimestamps() {
     });
 }
 
-function parseClipboardData(text) {
+function parseData(text) {
     // Find the "LiveTs:" line and parse the timestamps after it
     let lines = text.split("\n");
     let liveTsIndex = lines.findIndex(line => line.startsWith("LiveTs:"));
@@ -191,11 +207,40 @@ function createTimestampUI(timestamps) {
     timestampContainer.style.flexDirection = 'column';
 
     timestamps.forEach((timestamp) => {
+        
+        // skip if timestamp is TS but we are in chapter only mode
+        if (activity === "Chapter Only" && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
+            return;
+        }
+
+        // skip if timestamp is chapter but we are in TS only mode
+        if (activity === "TS Only" && !(timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
+            return;
+        }
+
+        // skip empty timestamps
+        if (timestamp.name === '') {
+            return;
+        }
+
         // Create a button for each timestamp
         let button = document.createElement('button');
 
         // Set the button's text to the timestamp's name
-        button.innerText = timestamp.name;
+
+
+        let timestampName = timestamp.name;
+        if (!(activity === "TS Only" ) && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
+            timestampName = timestampName.replace('!TS', '');
+            timestampName = timestampName.replace('~', '');
+            button.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + timestampName;
+        } else if ((activity === "TS Only" ) && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
+            timestampName = timestampName.replace('!TS', '');
+            timestampName = timestampName.replace('~', '');
+            button.innerHTML = timestampName;
+        } else {
+            button.innerHTML = timestampName;
+        }
         button.style.textAlign = 'left';
 
         // Set the button's timestamp property to the current timestamp
@@ -346,7 +391,7 @@ function loadTimestampsUrl(url) {
         .then(response => response.text())
         .then(text => {
             // Parse the data
-            let timestamps = parseClipboardData(text);
+            let timestamps = parseData(text);
 
             let oldTimestampContainer = document.querySelector('#timestamp-container');
             if (oldTimestampContainer) {
