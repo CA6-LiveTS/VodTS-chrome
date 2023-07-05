@@ -232,10 +232,12 @@ function createTimestampUI(timestamps) {
         let timestampName = timestamp.name;
         if (!(activity === "TS Only" ) && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
             timestampName = timestampName.replace('!TS', '');
+            timestampName = timestampName.replace('@TS', '');
             timestampName = timestampName.replace('~', '');
             button.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + timestampName;
         } else if ((activity === "TS Only" ) && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
             timestampName = timestampName.replace('!TS', '');
+            timestampName = timestampName.replace('@TS', '');
             timestampName = timestampName.replace('~', '');
             button.innerHTML = timestampName;
         } else {
