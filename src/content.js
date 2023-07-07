@@ -54,6 +54,19 @@ let observer = new MutationObserver(function() {
             }
         });
 
+        let findButton = document.createElement('button');
+        findButton.textContent = 'Comment TS';
+        findButton.style.fontSize = '18px';
+        findButton.style.fontWeight = 'bold';
+        findButton.style.padding = '5px 10px';
+        findButton.style.backgroundColor = '#66d672';
+        findButton.style.color = '#fff';
+        findButton.style.border = 'none';
+        findButton.style.borderRadius = '5px';
+        findButton.style.cursor = 'pointer';
+        findButton.style.backgroundColor = '#66d672';
+        findButton.addEventListener('click', getFromComment);
+
         let searchButton = document.createElement('button');
         searchButton.textContent = 'Search TS';
         searchButton.style.fontSize = '18px';
@@ -117,6 +130,7 @@ let observer = new MutationObserver(function() {
 
         secondRow.appendChild(loadButton);
         secondRow.appendChild(searchButton);
+        secondRow.appendChild(findButton);
         secondRow.appendChild(activitySelect);
 
         //titleElement.appendChild(firstRow);
@@ -144,6 +158,7 @@ let observer = new MutationObserver(function() {
 
 observer.observe(document, {childList: true, subtree: true});
 
+
 function updateActiveTimestamp() {
     let timestampContainer = document.querySelector('#timestamp-container');
 
@@ -162,6 +177,27 @@ function updateActiveTimestamp() {
     }
 }
 
+function getFromComment() {
+    let formattedStrings = document.querySelectorAll("yt-formatted-string#content-text span, yt-formatted-string#content-text a");
+
+    let lines = [];
+    formattedStrings.forEach((element, index) => {
+        // Checking if the element is an anchor tag
+        if (element.nodeName === "A") {
+            lines.push(`${element.textContent.trim()} ${formattedStrings[index + 1].textContent.trim()}`);
+        }
+    });
+
+    let timestamps = parseData(lines.join("\n"));
+    console.log(lines.join("\\n"));
+
+    let oldTimestampContainer = document.querySelector('#timestamp-container');
+    if (oldTimestampContainer) {
+        // If it does, remove it
+        oldTimestampContainer.remove();
+    }
+    createTimestampUI(timestamps);
+}
 
 function loadTimestamps() {
     // Read the clipboard
@@ -262,6 +298,8 @@ function createTimestampUI(timestamps) {
     });
     titleElement.appendChild(timestampContainer);
 }
+
+
 
 function parseTime(time) {
     let parts = time.split(":").map(Number);
