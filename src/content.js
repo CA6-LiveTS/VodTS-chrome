@@ -54,36 +54,9 @@ let observer = new MutationObserver(function() {
             }
         });
 
-        let findButton = document.createElement('button');
-        findButton.textContent = 'Comment TS';
-        findButton.style.fontSize = '18px';
-        findButton.style.fontWeight = 'bold';
-        findButton.style.padding = '5px 10px';
-        findButton.style.backgroundColor = '#66d672';
-        findButton.style.color = '#fff';
-        findButton.style.border = 'none';
-        findButton.style.borderRadius = '5px';
-        findButton.style.cursor = 'pointer';
-        findButton.style.backgroundColor = '#66d672';
-        findButton.addEventListener('click', getFromComment);
-
-        let searchButton = document.createElement('button');
-        searchButton.textContent = 'Search TS';
-        searchButton.style.fontSize = '18px';
-        searchButton.style.fontWeight = 'bold';
-        searchButton.style.padding = '5px 10px';
-        searchButton.style.backgroundColor = '#66d672';
-        searchButton.style.color = '#fff';
-        searchButton.style.border = 'none';
-        searchButton.style.borderRadius = '5px';
-        searchButton.style.cursor = 'pointer';
-        searchButton.style.backgroundColor = '#66d672';
-        searchButton.addEventListener('click', parseRepoGlobal);
-
-        
 
         let loadButton = document.createElement('button');
-        loadButton.textContent = 'Paste TS';
+        loadButton.textContent = 'Paste';
         loadButton.style.fontSize = '18px';
         loadButton.style.fontWeight = 'bold';
         loadButton.style.padding = '5px 10px';
@@ -95,11 +68,38 @@ let observer = new MutationObserver(function() {
         loadButton.style.backgroundColor = '#66d672';
         loadButton.addEventListener('click', loadTimestamps);
 
+        let searchButton = document.createElement('button');
+        searchButton.textContent = 'Search';
+        searchButton.style.fontSize = '18px';
+        searchButton.style.fontWeight = 'bold';
+        searchButton.style.padding = '5px 10px';
+        searchButton.style.backgroundColor = '#66d672';
+        searchButton.style.color = '#fff';
+        searchButton.style.border = 'none';
+        searchButton.style.borderRadius = '5px';
+        searchButton.style.cursor = 'pointer';
+        searchButton.style.backgroundColor = '#66d672';
+        searchButton.addEventListener('click', parseRepoGlobal);
+
+        let findButton = document.createElement('button');
+        findButton.textContent = 'Comment';
+        findButton.style.fontSize = '18px';
+        findButton.style.fontWeight = 'bold';
+        findButton.style.padding = '5px 10px';
+        findButton.style.backgroundColor = '#66d672';
+        findButton.style.color = '#fff';
+        findButton.style.border = 'none';
+        findButton.style.borderRadius = '5px';
+        findButton.style.cursor = 'pointer';
+        findButton.style.backgroundColor = '#66d672';
+        findButton.addEventListener('click', getFromComment);
+
         let activitySelect = document.createElement('select');
         activitySelect.style.fontSize = '18px';
         activitySelect.style.padding = '5px';
 
-        let options = ["All", "Chapter Only", "TS Only"];
+        //let options = ["All", "Chapter Only", "TS Only"];
+        let options = ["All", "Chapter Only"];
 
         options.forEach(function(optionText) {
             let optionElement = document.createElement('option');
@@ -205,7 +205,6 @@ function loadTimestamps() {
         // Parse the clipboard data
         let timestamps = parseData(text);
 
-
         let oldTimestampContainer = document.querySelector('#timestamp-container');
         if (oldTimestampContainer) {
             // If it does, remove it
@@ -280,6 +279,7 @@ function createTimestampUI(timestamps) {
             button.innerHTML = timestampName;
         }
         button.style.textAlign = 'left';
+        button.title = timestamp.time;
 
         // Set the button's timestamp property to the current timestamp
         button.timestamp = timestamp;
@@ -303,12 +303,14 @@ function createTimestampUI(timestamps) {
 
 function parseTime(time) {
     let parts = time.split(":").map(Number);
-    let seconds = parts[0] * 3600 + parts[1] * 60;
-    if (parts.length > 2) {
-        seconds += parts[2];
+    let seconds = 0;
+    if (parts.length === 3) {
+      seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+    } else if (parts.length === 2) {
+      seconds = parts[0] * 60 + parts[1];
     }
     return seconds;
-}
+  }
 
 function setVideoTime(time) {
     let seconds = parseTime(time);

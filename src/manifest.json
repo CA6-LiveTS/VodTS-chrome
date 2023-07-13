@@ -1,6 +1,7 @@
 {
-    "manifest_version": 2,
-    "name": "CA6.DEV VodTS",
+    "manifest_version": 3,
+    "name": "CA6.DEV VodTS YT",
+    "description": "Community Timestamp tool",
     "version": "0.1.0",
     "permissions": [
         "activeTab", 
@@ -12,5 +13,8 @@
             "matches": ["https://www.youtube.com/*"],
             "js": ["content.js"]
         }
-    ]
+    ],
+    "action": {
+        "default_icon": "128.png"
+    }
 }
