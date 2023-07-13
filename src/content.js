@@ -33,7 +33,7 @@ let observer = new MutationObserver(function() {
     if (video && titleElement) {
 
         let toggleButton = document.createElement('button');
-        toggleButton.innerText = 'CA6 VodTS';
+        toggleButton.innerText = 'VodTS';
         toggleButton.style.fontSize = '18px';
         toggleButton.style.fontWeight = 'bold';
         toggleButton.style.padding = '5px 10px';
