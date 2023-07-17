@@ -166,7 +166,11 @@ function updateActiveTimestamp() {
 
     for (let button of timestampContainer.childNodes) {
         let timestampTime = parseTime(button.timestamp.time);
-        if (currentTime >= timestampTime) {
+        if(button.timestamp.name.startsWith('!LiveTS')) {
+            button.style.backgroundColor = 'black';
+            button.style.color = 'red';
+            button.timestamp.time = 0;
+        } else if (currentTime >= timestampTime) {
             button.style.backgroundColor = '#466239';
             button.style.color = '#ffffff';
             found = 1;
@@ -262,9 +266,13 @@ function createTimestampUI(timestamps) {
         let button = document.createElement('button');
 
         // Set the button's text to the timestamp's name
-
-
         let timestampName = timestamp.name;
+
+        if(timestamp.name.startsWith('!LiveTS')) {
+            timestampName = timestampName.replace('!LiveTS', '===>');
+            timestampName = timestampName.replace('~', '');
+        }
+
         if (!(activity === "TS Only" ) && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
             timestampName = timestampName.replace('!TS', '');
             timestampName = timestampName.replace('@TS', '');
@@ -278,6 +286,10 @@ function createTimestampUI(timestamps) {
         } else {
             button.innerHTML = timestampName;
         }
+
+
+
+
         button.style.textAlign = 'left';
         button.title = timestamp.time;
 
