@@ -291,9 +291,13 @@ function createTimestampUI(timestamps) {
             // we are not in TS only mode and this is a TS timestamp
             timestampName = timestampName.replace('!', '');
             button.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;" + timestampName;
-        }  else if (activity === "TS Only" && timestamp.name.startsWith('!')) {
+        } else if (activity === "TS Only" && timestamp.name.startsWith('!')) {
             // we are in TS only mode and this is a TS timestamp
             timestampName = timestampName.replace('!', '');
+            button.innerHTML = timestampName;
+        } else if (timestampName.startsWith('.')) {
+            // remplace all the . at the beginning of the timestamp name with spaces, each dot is 2 space
+            timestampName = timestampName.replace(/\./g, '&nbsp;&nbsp;');
             button.innerHTML = timestampName;
         } else {
             button.innerHTML = timestampName;
