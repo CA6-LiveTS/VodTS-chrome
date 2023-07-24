@@ -243,7 +243,11 @@ function createTimestampUI(timestamps) {
     timestampContainer.style.display = 'flex';
     timestampContainer.style.alignItems = 'left';
     timestampContainer.style.flexWrap = 'wrap';
-    timestampContainer.style.flexDirection = 'column';
+    timestampContainer.style.flexDirection = 'line';
+    // limit the height of the timestamp container to 300px and add a vertical scrollbar
+    timestampContainer.style.height = '500px';
+    timestampContainer.style.overflowY = 'scroll';
+    timestampContainer.style.overflowX = 'none';
 
     timestamps.forEach((timestamp) => {
         
@@ -295,6 +299,7 @@ function createTimestampUI(timestamps) {
 
         // Set the button's timestamp property to the current timestamp
         button.timestamp = timestamp;
+        button.style.width = '100%';
 
         // Add a click event listener to the button
         button.addEventListener('click', () => {
