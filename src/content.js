@@ -252,7 +252,7 @@ function createTimestampUI(timestamps) {
     timestamps.forEach((timestamp) => {
         
         // skip if timestamp is TS but we are in chapter only mode
-        if (activity === "Chapter Only" && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
+        if (activity === "Chapter Only" && (timestamp.name.startsWith('!') || timestamp.name.startsWith('@'))) {
             return;
         }
 
@@ -281,11 +281,19 @@ function createTimestampUI(timestamps) {
             timestampName = timestampName.replace('!TS', '');
             timestampName = timestampName.replace('@TS', '');
             timestampName = timestampName.replace('~', '');
-            button.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + timestampName;
+            button.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + timestampName;
         } else if ((activity === "TS Only" ) && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
             timestampName = timestampName.replace('!TS', '');
             timestampName = timestampName.replace('@TS', '');
             timestampName = timestampName.replace('~', '');
+            button.innerHTML = timestampName;
+        } else if (!(activity === "TS Only") && timestamp.name.startsWith('!')) {
+            // we are not in TS only mode and this is a TS timestamp
+            timestampName = timestampName.replace('!', '');
+            button.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;" + timestampName;
+        }  else if (activity === "TS Only" && timestamp.name.startsWith('!')) {
+            // we are in TS only mode and this is a TS timestamp
+            timestampName = timestampName.replace('!', '');
             button.innerHTML = timestampName;
         } else {
             button.innerHTML = timestampName;
