@@ -252,7 +252,7 @@ function createTimestampUI(timestamps) {
     timestamps.forEach((timestamp) => {
         
         // skip if timestamp is TS but we are in chapter only mode
-        if (activity === "Chapter Only" && (timestamp.name.startsWith('!') || timestamp.name.startsWith('@'))) {
+        if (activity === "Chapter Only" && (timestamp.name.startsWith('!') || timestamp.name.startsWith('@') || timestamp.name.startsWith('.'))) {
             return;
         }
 
@@ -281,33 +281,35 @@ function createTimestampUI(timestamps) {
             timestampName = timestampName.replace('!TS', '');
             timestampName = timestampName.replace('@TS', '');
             timestampName = timestampName.replace('~', '');
-            button.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + timestampName;
+            button.style.paddingLeft = '20px';
+            button.innerHTML = timestampName + "<br>" + timestamp.time;
         } else if ((activity === "TS Only" ) && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
             timestampName = timestampName.replace('!TS', '');
             timestampName = timestampName.replace('@TS', '');
             timestampName = timestampName.replace('~', '');
-            button.innerHTML = timestampName;
+            button.innerHTML = timestampName + "<br>" + timestamp.time;
         } else if (!(activity === "TS Only") && timestamp.name.startsWith('!')) {
             // we are not in TS only mode and this is a TS timestamp
             timestampName = timestampName.replace('!', '');
-            button.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;" + timestampName;
+            button.style.paddingLeft = '20px';
+            button.innerHTML = timestampName + "<br>" + timestamp.time;
         } else if (activity === "TS Only" && timestamp.name.startsWith('!')) {
             // we are in TS only mode and this is a TS timestamp
             timestampName = timestampName.replace('!', '');
-            button.innerHTML = timestampName;
+            button.innerHTML = timestampName + "<br>" + timestamp.time;
         } else if (timestampName.startsWith('.')) {
             // remplace all the . at the beginning of the timestamp name with spaces, each dot is 2 space
-            timestampName = timestampName.replace(/\./g, '&nbsp;&nbsp;');
-            button.innerHTML = timestampName;
+            const dotCount = (timestampName.match(/\./g) || []).length;
+            const paddingValue = dotCount > 0 ? (dotCount * 20) + 'px' : '0';
+            button.style.paddingLeft = paddingValue;
+            timestampName = timestampName.replace(/\./g, '');
+            button.innerHTML = timestampName + "<br>" + timestamp.time;
         } else {
-            button.innerHTML = timestampName;
+            button.innerHTML = timestampName + "<br>" + timestamp.time;
         }
 
-
-
-
         button.style.textAlign = 'left';
-        button.title = timestamp.time;
+        button.title = timestamp.time + ' ' + timestampName;
 
         // Set the button's timestamp property to the current timestamp
         button.timestamp = timestamp;

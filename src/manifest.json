@@ -4,9 +4,6 @@
     "description": "Community Timestamp tool",
     "version": "0.1.0",
     "permissions": [
-        "activeTab", 
-        "downloads",
-        "https://www.youtube.com/*"
     ],
     "content_scripts": [
         {
