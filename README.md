@@ -1,5 +1,6 @@
 # VodTS-chrome
-Chrome extension for reading LiveTS files
+Chrome extension for reading LiveTS files  
+<img src="doc/screenshot_00.png" width="50%" />
 
 ## How to get the code from github
 - follow the link to the repo (well you are here already)
@@ -17,4 +18,6 @@ Chrome extension for reading LiveTS files
 - click on the VodTS icon above chat
 - click paste if you have the timestamp in your clipboard
 - click search to search in LiveTS timestamp repo
-- click comment to search in youtube comment (comment need to be loaded by scrooling in the page)
+- click comment to search in youtube comment (comment need to be loaded by scrooling in the page)  
+<img src="doc/diagram.png" width="50%" />
+
