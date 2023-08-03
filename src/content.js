@@ -281,7 +281,7 @@ function createTimestampUI(timestamps) {
             timestampName = timestampName.replace('!TS', '');
             timestampName = timestampName.replace('@TS', '');
             timestampName = timestampName.replace('~', '');
-            button.style.paddingLeft = '20px';
+            button.style.paddingLeft = '40px';
             button.innerHTML = timestampName + "<br>" + timestamp.time;
         } else if ((activity === "TS Only" ) && (timestamp.name.startsWith('!TS') || timestamp.name.startsWith('@TS'))) {
             timestampName = timestampName.replace('!TS', '');
