@@ -21,3 +21,11 @@ Chrome extension for reading LiveTS files
 - click comment to search in youtube comment (comment need to be loaded by scrooling in the page)  
 <img src="doc/diagram.png" width="50%" />
 
+## Browser Support
+| Feature / Browser      | Chromium | Chrome | Brave | Edge     | Opera    | Firefox |
+|------------------------|----------|--------|-------|----------|----------|---------|
+| Display Timestamp      | YES      | YES    | YES   | Untested | Untested | Soon    |
+| Jump to Time           | YES      | YES    | YES   | Untested | Untested | Soon    |
+| Paste from Clipboard   | YES      | YES    | YES   | Untested | Untested | Soon    |
+| Search LiveTS Repo     | YES      | YES    | YES   | Untested | Untested | Soon    |
+| Search Comment Section | YES      | YES    | NO    | Untested | Untested | Soon    |
