@@ -24,8 +24,20 @@ Chrome extension for reading LiveTS files
 ## Browser Support
 | Feature / Browser      | Chromium | Chrome | Brave | Edge     | Opera    | Firefox |
 |------------------------|----------|--------|-------|----------|----------|---------|
-| Display Timestamp      | YES      | YES    | YES   | Untested | Untested | Soon    |
-| Jump to Time           | YES      | YES    | YES   | Untested | Untested | Soon    |
-| Paste from Clipboard   | YES      | YES    | YES   | Untested | Untested | Soon    |
-| Search LiveTS Repo     | YES      | YES    | YES   | Untested | Untested | Soon    |
-| Search Comment Section | YES      | YES    | NO    | Untested | Untested | Soon    |
+| Display Timestamp      | YES      | YES    | YES   | Untested | Untested | Planned for V1.1.0 |
+| Jump to Time           | YES      | YES    | YES   | Untested | Untested | Planned for V1.1.0 |
+| Paste from Clipboard   | YES      | YES    | YES   | Untested | Untested | Planned for V1.1.0 |
+| Search LiveTS Repo     | YES      | YES    | YES   | Untested | Untested | Planned for V1.1.0 |
+| Search Comment Section | YES      | YES    | No    | Untested | Untested | Planned for V1.1.0 |
+
+## Platform Support
+|                        | Youtube | Twitch             | VStream            |
+|------------------------|---------|--------------------|--------------------|
+| Display Timestamp      | YES     | Planned for V1.2.0 | Planned for V1.3.0 |
+| Jump to Time           | YES     | Planned for V1.2.0 | Planned for V1.3.0 |
+| Paste from Clipboard   | YES     | Planned for V1.2.0 | Planned for V1.3.0 |
+| Search LiveTS Repo     | YES     | Planned for V1.2.0 | Planned for V1.3.0 |
+| Search Comment Section | YES     | No                 | No                 |
+
+## Roadmap
+TODO
