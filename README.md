@@ -22,13 +22,13 @@ Chrome extension for reading LiveTS files
 <img src="doc/diagram.png" width="50%" />
 
 ## Browser Support
-| Feature / Browser      | Chromium | Chrome | Brave | Edge     | Opera    | Firefox |
-|------------------------|----------|--------|-------|----------|----------|---------|
-| Display Timestamp      | YES      | YES    | YES   | Untested | Untested | Planned for V1.1.0 |
-| Jump to Time           | YES      | YES    | YES   | Untested | Untested | Planned for V1.1.0 |
-| Paste from Clipboard   | YES      | YES    | YES   | Untested | Untested | Planned for V1.1.0 |
-| Search LiveTS Repo     | YES      | YES    | YES   | Untested | Untested | Planned for V1.1.0 |
-| Search Comment Section | YES      | YES    | No    | Untested | Untested | Planned for V1.1.0 |
+| Feature / Browser      | Chromium | Chrome | Vivaldi | Brave | Edge     | Opera    | Firefox |
+|------------------------|----------|--------|---------|-------|----------|----------|---------|
+| Display Timestamp      | YES      | YES    | YES     | YES   | Untested | Untested | YES     |
+| Jump to Time           | YES      | YES    | YES     | YES   | Untested | Untested | YES     |
+| Paste from Clipboard   | YES      | YES    | YES     | YES   | Untested | Untested | YES     |
+| Search LiveTS Repo     | YES      | YES    | YES     | YES   | Untested | Untested | YES     |
+| Search Comment Section | YES      | YES    | YES     | No    | Untested | Untested | YES     |
 
 ## Platform Support
 |                        | Youtube | Twitch             | VStream            |

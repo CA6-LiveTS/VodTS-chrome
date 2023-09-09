@@ -4,6 +4,8 @@
     "description": "Community Timestamp tool",
     "version": "0.1.0",
     "permissions": [
+        "clipboardWrite",
+        "clipboardRead"
     ],
     "content_scripts": [
         {
