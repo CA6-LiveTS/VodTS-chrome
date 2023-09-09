@@ -3,6 +3,7 @@ let video = null;
 let activeTimestampButton = null; 
 let currentUrl = window.location.href;
 let activity = 'Chapter + TS';
+let looptime = -1;
 
 let urlObserver = new MutationObserver(function() {
     if (window.location.href !== currentUrl) {
@@ -26,7 +27,6 @@ let observer = new MutationObserver(function() {
     let titleElement = document.querySelector('#secondary-inner.ytd-watch-flexy');
     
     //let titleElement = document.querySelector('#chat.ytd-watch-flexy');
-
 
     let thirdRow = document.createElement('div');
 
@@ -60,12 +60,11 @@ let observer = new MutationObserver(function() {
         loadButton.style.fontSize = '18px';
         loadButton.style.fontWeight = 'bold';
         loadButton.style.padding = '5px 10px';
-        loadButton.style.backgroundColor = '#66d672';
+        loadButton.style.backgroundColor = '#42423f';
         loadButton.style.color = '#fff';
         loadButton.style.border = 'none';
         loadButton.style.borderRadius = '5px';
         loadButton.style.cursor = 'pointer';
-        loadButton.style.backgroundColor = '#66d672';
         loadButton.addEventListener('click', loadTimestamps);
 
         let searchButton = document.createElement('button');
@@ -73,12 +72,11 @@ let observer = new MutationObserver(function() {
         searchButton.style.fontSize = '18px';
         searchButton.style.fontWeight = 'bold';
         searchButton.style.padding = '5px 10px';
-        searchButton.style.backgroundColor = '#66d672';
+        searchButton.style.backgroundColor = '#42423f';
         searchButton.style.color = '#fff';
         searchButton.style.border = 'none';
         searchButton.style.borderRadius = '5px';
         searchButton.style.cursor = 'pointer';
-        searchButton.style.backgroundColor = '#66d672';
         searchButton.addEventListener('click', parseRepoGlobal);
 
         let findButton = document.createElement('button');
@@ -86,12 +84,11 @@ let observer = new MutationObserver(function() {
         findButton.style.fontSize = '18px';
         findButton.style.fontWeight = 'bold';
         findButton.style.padding = '5px 10px';
-        findButton.style.backgroundColor = '#66d672';
+        findButton.style.backgroundColor = '#42423f';
         findButton.style.color = '#fff';
         findButton.style.border = 'none';
         findButton.style.borderRadius = '5px';
         findButton.style.cursor = 'pointer';
-        findButton.style.backgroundColor = '#66d672';
         findButton.addEventListener('click', getFromComment);
 
         let activitySelect = document.createElement('select');
@@ -158,27 +155,30 @@ let observer = new MutationObserver(function() {
 
 observer.observe(document, {childList: true, subtree: true});
 
-
 function updateActiveTimestamp() {
     let timestampContainer = document.querySelector('#timestamp-container');
 
     let currentTime = video.currentTime;
 
-    for (let button of timestampContainer.childNodes) {
+    let prev;
+    let found = false
+
+    for (let buttondiv of timestampContainer.childNodes) {
+
+        let button = buttondiv.childNodes[0];
+        let shareButton = buttondiv.childNodes[1];
+        let loopButton = buttondiv.childNodes[2];
+
         let timestampTime = parseTime(button.timestamp.time);
-        if(button.timestamp.name.startsWith('!LiveTS')) {
-            button.style.backgroundColor = 'black';
-            button.style.color = 'red';
-            button.timestamp.time = 0;
-        } else if (currentTime >= timestampTime) {
-            button.style.backgroundColor = '#466239';
-            button.style.color = '#ffffff';
-            found = 1;
-        } else {
-            button.style.backgroundColor = '#123f5e';
-            button.style.color = '#ffffff';
+
+        button.style.backgroundColor = '#0f0f0f';
+
+        if (currentTime >= timestampTime) {
+            prev = button;
         }
     }
+
+    prev.style.backgroundColor = '#42423f';
 }
 
 function getFromComment() {
@@ -245,11 +245,21 @@ function createTimestampUI(timestamps) {
     timestampContainer.style.flexWrap = 'wrap';
     timestampContainer.style.flexDirection = 'line';
     // limit the height of the timestamp container to 300px and add a vertical scrollbar
-    timestampContainer.style.height = '500px';
+    timestampContainer.style.height = '600px';
+    timestampContainer.style.width = '100%';
     timestampContainer.style.overflowY = 'scroll';
     timestampContainer.style.overflowX = 'none';
 
     timestamps.forEach((timestamp) => {
+
+        // Create a new div for the buttons, they need to be wrapped in a div to be displayed properly and stay on the same line
+        let div = document.createElement('div');
+        div.style.display = 'flex';
+        div.style.alignItems = 'left';
+        div.style.flexWrap = 'wrap';
+        div.style.flexDirection = 'line';
+        div.style.width = '100%';
+        div.style.height = '80px';
         
         // skip if timestamp is TS but we are in chapter only mode
         if (activity === "Chapter Only" && (timestamp.name.startsWith('!') || timestamp.name.startsWith('@') || timestamp.name.startsWith('.'))) {
@@ -313,19 +323,58 @@ function createTimestampUI(timestamps) {
 
         // Set the button's timestamp property to the current timestamp
         button.timestamp = timestamp;
-        button.style.width = '100%';
+        button.style.width = 'auto';
+        button.style.color = '#fff';
 
         // Add a click event listener to the button
         button.addEventListener('click', () => {
             setVideoTime(timestamp.time);
         });
-
-        // Create a new div for the button
-        let div = document.createElement('div');
         div.appendChild(button);
 
+        let divS = document.createElement('div');
+        divS.style.display = 'flex';
+        divS.style.alignItems = 'left';
+        divS.style.flexWrap = 'wrap';
+        divS.style.flexDirection = 'column';
+        divS.style.height = '80px';
+
+        // add a share button to the timestamp button
+        let shareButton = document.createElement('button');
+        shareButton.innerText = 'Share';
+        shareButton.style.cursor = 'pointer';
+        shareButton.style.color = '#ffffff';
+        shareButton.style.backgroundColor = '#0f0f0f';
+        shareButton.style.height = '50%';
+        shareButton.addEventListener('click', function() {
+            let url = window.location.href;
+            let timestampSeconds = parseTime(timestamp.time);
+            let urlMinimal = url.split('&')[0];
+            let timestampUrl = urlMinimal + '&t=' + timestampSeconds;
+            navigator.clipboard.writeText(timestampUrl);
+        });
+        divS.appendChild(shareButton);
+
+        // add a loop button to the timestamp button
+        let loopButton = document.createElement('button');
+        loopButton.innerText = 'Loop';
+        loopButton.style.cursor = 'pointer';
+        loopButton.style.color = '#ffffff';
+        loopButton.style.backgroundColor = '#0f0f0f';
+        loopButton.style.height = '50%';
+        loopButton.addEventListener('click', function() {
+            looptime = parseTime(timestamp.time);
+        });
+        divS.appendChild(loopButton);
+
+        div.appendChild(divS);
+
+        button.style.flexGrow = '1';
+        button.style.flexShrink = '1';
+        button.style.flexBasis = '0';
+
         // Add the div to the titleElement
-        timestampContainer.appendChild(button);
+        timestampContainer.appendChild(div);
     });
     titleElement.appendChild(timestampContainer);
 }
