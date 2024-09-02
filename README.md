@@ -1,5 +1,5 @@
 # Archived
-Future version of VodTS are developed at: https://github.com/david-ca6/vodts2
+Future versions of VodTS are developed at: https://github.com/david-ca6/vodts2
 
 # VodTS-chrome
 Chrome extension for reading LiveTS files  
